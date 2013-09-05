@@ -1,3 +1,3 @@
 # FILMES APP
 
-Primeira Aplicacao usando AngularJS
+Primeira Aplicacao usando AngularJS com Bootstrap3
