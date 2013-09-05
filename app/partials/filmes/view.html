@@ -1,0 +1,23 @@
+<div class="row"> 
+    <div class="col-xs-12">
+        <h1>{{filme.titulo}} <small>{{filme.ano}}</small></h1>        
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <p>
+            {{filme.genero.descricao}}
+        </p>
+        <p>
+
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div>
+            <button data-ng-click="apagar(filme.id)" type="button" class="btn btn-danger">Apagar</button>
+            <button data-ng-click="editar(filme.id)" type="button" class="btn btn-info">Editar</button>
+        </div>
+    </div>
+</div>

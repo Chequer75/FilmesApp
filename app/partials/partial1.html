@@ -1,0 +1,14 @@
+<p>Lista de Filmes.</p>
+<input type="text" data-ng-model="busca" placeholder="Procurar">
+<br />
+<div data-ng-repeat="filme in data.filmes | filter:busca" style="border: 1px solid gray; padding: 4px; margin: 4px;">
+    <h3>{{filme.titulo}}</h3>
+    <p>{{filme.ano}}</p>
+    <p>{{filme.genero}}</p>
+    <ul>
+        <li data-ng-repeat="ator in filme.elenco">
+            {{ator.nome}}
+        </li>
+    </ul>
+    
+</div>
