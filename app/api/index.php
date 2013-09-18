@@ -43,6 +43,7 @@ $app->run();
         //Include Services
         
         include './services/filmes.inc.php';
+        include './services/generos.inc.php';
         
         
         //Inicia a API.

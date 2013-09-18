@@ -3,8 +3,8 @@
 /* Controllers */
 
 angular.module('filmera.controllers', []).
-  controller('FilmesListController', ['$scope', 'FilmesAPI','$location', function($scope, FilmesAPI, $location) {
-    
+  controller('FilmesListController', ['$scope', 'FilmesAPI','$location','$rootScope', function($scope, FilmesAPI, $location, $rootScope) {
+    $rootScope.appTitle = 'Filmes App';
     $scope.status;
     $scope.filmes = {};
 
@@ -47,10 +47,32 @@ angular.module('filmera.controllers', []).
                 $location.path('filmes/edit/' + id);
             };
   }])
-  .controller('FilmesNewController', ['$scope', 'FilmesAPI','$routeParams','$location', function($scope, FilmesAPI, $routeParams, $location) {
+  .controller('FilmesNewController', ['$scope', 'FilmesAPI', 'GenerosAPI','$routeParams','$location', function($scope, FilmesAPI, GenerosAPI, $routeParams, $location) {
             
             $scope.filme = {};
             $scope.title = 'Novo';
+            $scope.generos = {};
+            
+            GenerosAPI.query(function(response) {
+                $scope.generos = response;
+            }, function(response) {
+                console.log(response); //refatorar erros
+                $scope.status = 'Não pode carregar genero';
+            });
+            $scope.mouseEnter = function(event){  
+                $(event.target).addClass('active').find('span.glyphicon').stop(true,true).fadeIn('fast');
+            }
+            $scope.mouseLeave = function(event){
+                $(event.target).removeClass('active').find('span.glyphicon').stop(true,true).fadeOut('fast');
+            }
+            $scope.selecionaGenero = function(genero){
+                $scope.filme.genero = genero;
+            }
+            
+            var JmodalGeneros = $('#modalGeneros');            
+            $scope.modalGeneros = function() {
+                JmodalGeneros.modal('show');
+            };
             
             $scope.saveUpdate = function(){                
                 FilmesAPI.save($scope.filme,function(response){
@@ -66,10 +88,32 @@ angular.module('filmera.controllers', []).
                 window.history.back();
             };
             
-  }]).controller('FilmesEditController', ['$scope', 'FilmesAPI','$routeParams','$location', function($scope, FilmesAPI, $routeParams, $location) {
+  }]).controller('FilmesEditController', ['$scope', 'FilmesAPI', 'GenerosAPI','$routeParams','$location', function($scope, FilmesAPI, GenerosAPI, $routeParams, $location) {
             var FilmeId = $routeParams.id;
             $scope.filme = FilmesAPI.get({id:FilmeId});
             $scope.title = 'Atualizar';
+            $scope.generos = {};
+            
+            GenerosAPI.query(function(response) {
+                $scope.generos = response;
+            }, function(response) {
+                console.log(response); //refatorar erros
+                $scope.status = 'Não pode carregar genero';
+            });
+            $scope.mouseEnter = function(event){  
+                $(event.target).addClass('active').find('span.glyphicon').stop(true,true).fadeIn('fast');
+            }
+            $scope.mouseLeave = function(event){
+                $(event.target).removeClass('active').find('span.glyphicon').stop(true,true).fadeOut('fast');
+            }
+            $scope.selecionaGenero = function(genero){
+                $scope.filme.genero = genero;
+            }
+            
+            var JmodalGeneros = $('#modalGeneros');            
+            $scope.modalGeneros = function() {
+                JmodalGeneros.modal('show');
+            };
             
             $scope.saveUpdate = function(){             
                 FilmesAPI.update($scope.filme,function(){                        
@@ -79,7 +123,88 @@ angular.module('filmera.controllers', []).
                     }
                 );
             };
-            $scope.voltar = function() {
+            $scope.voltar = function() { //refatorar 
                 window.history.back();
             };
-  }]);
+            
+  }]).controller('GenerosListController', ['$scope', 'GenerosAPI','$location','$rootScope', function($scope, GenerosAPI, $location, $rootScope) {
+    $rootScope.appTitle = 'Generos | Filmes App';
+    $scope.status;
+    $scope.generos = {};
+
+    GenerosAPI.query(function(response) {
+        $scope.generos = response;
+    }, function(response) {
+        console.log(response);
+        $scope.status = 'Não pode carregar genero';
+    });
+    
+    $scope.novo = function(){
+        $location.path('generos/new/');
+    };
+    $scope.detalhes = function(id){
+        $location.path('generos/view/'+id);
+    };
+    $scope.editar = function(id){
+        $location.path('generos/edit/'+id);
+    };
+
+    
+  }])
+  .controller('GenerosViewController', ['$scope', 'GenerosAPI','$routeParams','$location', function($scope, GenerosAPI, $routeParams, $location) {
+
+            var GeneroId = $routeParams.id;
+            $scope.genero = GenerosAPI.get({id:GeneroId});   
+
+            $scope.apagar = function(id) {
+                if(confirm('Tem certeza ?')){                    
+                    GenerosAPI.remove({
+                                        id: $scope.genero.id
+                                    });
+                    $location.replace().path('generos');
+                }
+            };
+            $scope.detalhes = function(id) {
+                $location.path('generos/view/' + id);
+            };
+            $scope.editar = function(id) {
+                $location.path('generos/edit/' + id);
+            };
+  }])
+  .controller('GenerosNewController', ['$scope', 'GenerosAPI', '$location', function($scope, GenerosAPI, $location) {
+            
+            $scope.genero = {};
+            $scope.title = 'Novo';
+            
+            $scope.saveUpdate = function(){                
+                GenerosAPI.save($scope.genero,function(response){
+                        console.log(response.id);
+                        $location.path('generos/view/'+response.id);
+                    },function(response){
+                        console.log(response);
+                    }
+                );
+                console.log($scope.genero);
+            };
+            $scope.voltar = function() { //refatorar root
+                window.history.back();
+            };
+            
+  }]).controller('GenerosEditController', ['$scope', 'GenerosAPI','$routeParams','$location', function($scope, GenerosAPI, $routeParams, $location) {
+            var GeneroId = $routeParams.id;
+            $scope.genero = GenerosAPI.get({id:GeneroId});
+            $scope.title = 'Atualizar';
+            
+            $scope.saveUpdate = function(){             
+                GenerosAPI.update($scope.genero,function(){                        
+                        $location.path('generos/view/'+GeneroId);
+                    },function(response){
+                        console.log(response);
+                    }
+                );
+            };
+            $scope.voltar = function() { //refatorar 
+                window.history.back();
+            };
+  }])
+  ;

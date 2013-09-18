@@ -1,7 +1,7 @@
 
 <div class="row">    
     <div class="col-xs-12 col-sm-12">
-        <h1>Lista de Filmes</h1>    
+        <h1>Lista de Gêneros</h1>    
     </div>
 </div>
 <div class="row">
@@ -20,24 +20,15 @@
     </div>
 </div>
 <div class="row">
-    <div data-ng-repeat="filme in filmes | filter:busca" class="col-xs-12 col-sm-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3>{{filme.titulo}}</h3>
-            </div>
+    <div data-ng-repeat="genero in generos | filter:busca" class="col-xs-12 col-sm-3">
+        <div class="panel panel-default">            
             <div class="panel-body">
-                <p>{{filme.ano}}</p>
-                <p>{{filme.genero.descricao}}</p>
-                <ul>
-                    <li data-ng-repeat="ator in filme.elenco">
-                        {{ator.nome}}
-                    </li>
-                </ul>
+                <h4>{{genero.descricao}}<span class="badge pull-right">{{genero.id}}</span></h4>
             </div>
 
             <div class="panel-footer">
-                <button data-ng-click="detalhes(filme.id)" type="button" class="btn btn-primary">Detalhes</button>
-                <button data-ng-click="editar(filme.id)" type="button" class="btn btn-info">Editar</button>
+                <button data-ng-click="detalhes(genero.id)" type="button" class="btn btn-primary">Detalhes</button>
+                <button data-ng-click="editar(genero.id)" type="button" class="btn btn-info">Editar</button>
             </div>
 
         </div>

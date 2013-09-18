@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                 <label for="filmeGenero">Genero</label>
-                <input type="text" id="filmeGenero" class="form-control" data-ng-model="filme.genero.id" value="{{filme.genero.id}}" />
+                <input type="text" id="filmeGenero"  data-ng-click="modalGeneros()" readonly class="form-control modal-click" data-ng-model="filme.genero.descricao" value="{{filme.genero.descricao}}" />
             </div>
 
             <button type="submit" data-ng-click="saveUpdate()" class="btn btn-success">{{title}}</button>
@@ -22,3 +22,33 @@
         </form>
     </div>
 </div>
+
+<div class="modal fade" id="modalGeneros" role="dialog" aria-labelledby="modalGeneros" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Gêneros</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" data-ng-model="busca" class="form-control" id="searchField"placeholder="Procurar" data-focus>
+                </div>
+                <div  class="list-group">
+                    <a href="#" 
+                       class="list-group-item" 
+                       data-ng-repeat="genero in generos | filter:busca" 
+                       data-dismiss="modal" 
+                       data-ng-mouseenter="mouseEnter($event)" 
+                       data-ng-mouseleave="mouseLeave($event)" 
+                       data-ng-click="selecionaGenero(genero)">
+                        <h5>{{genero.descricao}} <span class="glyphicon glyphicon-ok pull-right display-none"></span></h5>                         
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
