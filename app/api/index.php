@@ -44,6 +44,7 @@ $app->run();
         
         include './services/filmes.inc.php';
         include './services/generos.inc.php';
+        include './services/atores.inc.php';
         
         
         //Inicia a API.

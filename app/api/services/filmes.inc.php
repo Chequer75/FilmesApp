@@ -10,7 +10,10 @@ $app->get("/filmes", function () use ($app, $db) {
 
         $elenco = array();
         foreach ($filme->elenco() as $elencoDB) {
-            $elenco[] = array( 'nome' => $elencoDB->ator["nome"] );
+            $elenco[] = array( 
+                    'id' => $elencoDB->ator["id"], 
+                    'nome' => $elencoDB->ator["nome"] 
+            );
         }
 
         $filmes[] = array(
@@ -35,13 +38,23 @@ $app->get("/filmes/:id", function ($id) use ($app, $db) {
     $app->response()->header("Content-Type", "application/json charset=utf-8");
     $filmeDB = $db->filme()->where("id", $id);
     if ($filme = $filmeDB->fetch()) {
+        
+        $elenco = array();
+        foreach ($filme->elenco() as $elencoDB) {
+            $elenco[] = array( 
+                    'id' => $elencoDB->ator["id"], 
+                    'nome' => $elencoDB->ator["nome"] 
+            );
+        }
+        
         echo json_encode (array(
             "id"        => $filme["id"],
             "titulo"    => $filme["titulo"],
             "ano"       => $filme["ano"],
             'genero'    => array(
                             'id'        => $filme->genero["id"],
-                            'descricao' => $filme->genero["descricao"])
+                            'descricao' => $filme->genero["descricao"]),
+            'elenco'    => $elenco
         ));
     }
     else{
@@ -68,7 +81,7 @@ $app->post("/filmes", function () use($app, $db) {
 
 
  /*\
-  *     Altera um filme
+  *     Altera um filme.
  \*/
 
 $app->put("/filmes/:id", function ($id) use ($app, $db) {

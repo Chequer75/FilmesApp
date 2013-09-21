@@ -8,9 +8,11 @@
         <p>
             {{filme.genero.descricao}}
         </p>
-        <p>
-
-        </p>
+        <ul>
+            <li data-ng-repeat="ator in filme.elenco">
+                {{ator.nome}}
+            </li>
+        </ul>
     </div>
 </div>
 <div class="row">

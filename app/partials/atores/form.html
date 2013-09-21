@@ -1,0 +1,15 @@
+<div class="row">
+    <h1>{{title}} Ator</h1>    
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <form>
+            <div class="form-group">
+                <label for="atorNome">Nome</label>
+                <input id="atorNome" type="text" class="form-control" data-ng-model="ator.nome" value="{{ator.nome}}" placeholder="Digite o nome" required focus />
+            </div>
+            <button type="submit" data-ng-click="saveUpdate()" class="btn btn-success">{{title}}</button>
+            <button type="button" data-ng-click="voltar()" class="btn btn-default">Voltar</button>
+        </form>
+    </div>
+</div>

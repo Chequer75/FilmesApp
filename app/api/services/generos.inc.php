@@ -52,7 +52,7 @@ $app->post("/generos", function () use($app, $db) {
 
 
  /*\
-  *     Altera um filme
+  *     Altera um genero.
  \*/
 
 $app->put("/generos/:id", function ($id) use ($app, $db) {
@@ -77,7 +77,7 @@ $app->put("/generos/:id", function ($id) use ($app, $db) {
 });
 
  /*\
-  *     Apaga um filme.
+  *     Apaga um genero.
  \*/
 
 $app->delete("/generos/:id", function ($id) use($app, $db) {

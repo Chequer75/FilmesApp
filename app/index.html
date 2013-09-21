@@ -62,12 +62,19 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#/filmes">Filmes</a></li>
                         <li class=""><a href="#/generos">Gêneros</a></li>
+                        <li class=""><a href="#/atores">Atores</a></li>
                     </ul>
                 </div>
             </nav>
 
             <div data-ng-view ></div>
-            <div>Filmes App: v<span data-app-version></span></div>
+            <div>Filmes App: v<span data-app-version></span>
+            <!--            Showing of 'interpolate' filter: -->
+            {{ ' - V.Atual v%VERSION%.' | interpolate }}
+            </div>
+            
+
+  
         </div>
 
         <!-- In production use:

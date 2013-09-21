@@ -27,4 +27,16 @@ angular.module('filmera.services', ['ngResource'])
             }            
         });
     })
+    .factory('AtoresAPI', function($resource){
+
+        return $resource('api/atores/:id', 
+        {   //params
+            id: "@id"
+        },
+        {   //additional methods
+            update: {
+                method: "PUT"
+            }            
+        });
+    })
     .value('version', '0.1');

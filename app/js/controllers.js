@@ -2,8 +2,11 @@
 
 /* Controllers */
 
-angular.module('filmera.controllers', []).
-  controller('FilmesListController', ['$scope', 'FilmesAPI','$location','$rootScope', function($scope, FilmesAPI, $location, $rootScope) {
+angular.module('filmera.controllers', [])
+
+/* FILMES CONTROLLERS ********************************************************/
+
+.controller('FilmesListController', ['$scope', 'FilmesAPI','$location','$rootScope', function($scope, FilmesAPI, $location, $rootScope) {
     $rootScope.appTitle = 'Filmes App';
     $scope.status;
     $scope.filmes = {};
@@ -127,7 +130,11 @@ angular.module('filmera.controllers', []).
                 window.history.back();
             };
             
-  }]).controller('GenerosListController', ['$scope', 'GenerosAPI','$location','$rootScope', function($scope, GenerosAPI, $location, $rootScope) {
+  }])
+
+/* GENEROS CONTROLLERS ********************************************************/
+
+.controller('GenerosListController', ['$scope', 'GenerosAPI','$location','$rootScope', function($scope, GenerosAPI, $location, $rootScope) {
     $rootScope.appTitle = 'Generos | Filmes App';
     $scope.status;
     $scope.generos = {};
@@ -198,6 +205,89 @@ angular.module('filmera.controllers', []).
             $scope.saveUpdate = function(){             
                 GenerosAPI.update($scope.genero,function(){                        
                         $location.path('generos/view/'+GeneroId);
+                    },function(response){
+                        console.log(response);
+                    }
+                );
+            };
+            $scope.voltar = function() { //refatorar 
+                window.history.back();
+            };
+  }])
+  
+/* ATORES CONTROLLERS ********************************************************/
+
+.controller('AtoresListController', ['$scope', 'AtoresAPI','$location','$rootScope', function($scope, AtoresAPI, $location, $rootScope) {
+    $rootScope.appTitle = 'Atores | Filmes App';
+    $scope.status;
+    $scope.atores = {};
+
+    AtoresAPI.query(function(response) {
+        $scope.atores = response;
+    }, function(response) {
+        console.log(response);
+        $scope.status = 'Não pode carregar ator';
+    });
+    
+    $scope.novo = function(){
+        $location.path('atores/new/');
+    };
+    $scope.detalhes = function(id){
+        $location.path('atores/view/'+id);
+    };
+    $scope.editar = function(id){
+        $location.path('atores/edit/'+id);
+    };
+
+    
+  }])
+  .controller('AtoresViewController', ['$scope', 'AtoresAPI','$routeParams','$location', function($scope, AtoresAPI, $routeParams, $location) {
+
+            var AtorId = $routeParams.id;
+            $scope.ator = AtoresAPI.get({id:AtorId});   
+
+            $scope.apagar = function(id) {
+                if(confirm('Tem certeza ?')){                    
+                    AtoresAPI.remove({
+                                        id: $scope.ator.id
+                                    });
+                    $location.replace().path('atores');
+                }
+            };
+            $scope.detalhes = function(id) {
+                $location.path('atores/view/' + id);
+            };
+            $scope.editar = function(id) {
+                $location.path('atores/edit/' + id);
+            };
+  }])
+  .controller('AtoresNewController', ['$scope', 'AtoresAPI', '$location', function($scope, AtoresAPI, $location) {
+            
+            $scope.ator = {};
+            $scope.title = 'Novo';
+            
+            $scope.saveUpdate = function(){                
+                AtoresAPI.save($scope.ator,function(response){
+                        console.log(response.id);
+                        $location.path('atores/view/'+response.id);
+                    },function(response){
+                        console.log(response);
+                    }
+                );
+                console.log($scope.ator);
+            };
+            $scope.voltar = function() { //refatorar root
+                window.history.back();
+            };
+            
+  }]).controller('AtoresEditController', ['$scope', 'AtoresAPI','$routeParams','$location', function($scope, AtoresAPI, $routeParams, $location) {
+            var AtorId = $routeParams.id;
+            $scope.ator = AtoresAPI.get({id:AtorId});
+            $scope.title = 'Atualizar';
+            
+            $scope.saveUpdate = function(){             
+                AtoresAPI.update($scope.ator,function(){                        
+                        $location.path('atores/view/'+AtorId);
                     },function(response){
                         console.log(response);
                     }

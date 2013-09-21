@@ -1,0 +1,36 @@
+
+<div class="row">    
+    <div class="col-xs-12 col-sm-12">
+        <h1>Lista de Atores</h1>    
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-2">
+        <div class="form-group">
+            <button type="button" data-ng-click="novo()" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span> Novo</button>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-sm-offset-7">
+        <form>
+            <div class="form-group">
+                <label class="sr-only" for="searchField">Procurar</label>
+                <input type="text" data-ng-model="busca" class="form-control" id="searchField"placeholder="Procurar" data-focus>
+            </div>            
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div data-ng-repeat="ator in atores | filter:busca" class="col-xs-12 col-sm-3">
+        <div class="panel panel-default">            
+            <div class="panel-body">
+                <h4>{{ator.nome}}<span class="label label-danger pull-right">{{ator.id}}</span></h4>
+            </div>
+
+            <div class="panel-footer">
+                <button data-ng-click="detalhes(ator.id)" type="button" class="btn btn-primary">Detalhes</button>
+                <button data-ng-click="editar(ator.id)" type="button" class="btn btn-info">Editar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

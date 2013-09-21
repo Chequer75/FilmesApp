@@ -13,5 +13,9 @@ angular.module('filmera', ['filmera.filters', 'filmera.services', 'filmera.direc
             .when('/generos/view/:id',   {templateUrl: 'partials/generos/view.html', controller: 'GenerosViewController'})
             .when('/generos/new/',       {templateUrl: 'partials/generos/form.html', controller: 'GenerosNewController'})
             .when('/generos/edit/:id',   {templateUrl: 'partials/generos/form.html', controller: 'GenerosEditController'})
+            .when('/atores',            {templateUrl: 'partials/atores/list.html', controller: 'AtoresListController'})
+            .when('/atores/view/:id',   {templateUrl: 'partials/atores/view.html', controller: 'AtoresViewController'})
+            .when('/atores/new/',       {templateUrl: 'partials/atores/form.html', controller: 'AtoresNewController'})
+            .when('/atores/edit/:id',   {templateUrl: 'partials/atores/form.html', controller: 'AtoresEditController'})
             .otherwise({redirectTo: '/filmes'});
   }]);
