@@ -36,7 +36,7 @@ angular.module('filmera.services', ['ngResource'])
         {   //additional methods
             update: {
                 method: "PUT"
-            }            
+            }
         });
     })
     .value('version', '0.1');

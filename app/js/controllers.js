@@ -91,11 +91,38 @@ angular.module('filmera.controllers', [])
                 window.history.back();
             };
             
-  }]).controller('FilmesEditController', ['$scope', 'FilmesAPI', 'GenerosAPI','$routeParams','$location', function($scope, FilmesAPI, GenerosAPI, $routeParams, $location) {
-            var FilmeId = $routeParams.id;
+  }])
+    .controller('FilmesEditController', ['$scope', 'FilmesAPI', 'GenerosAPI', 'AtoresAPI', '$routeParams','$location', function($scope, FilmesAPI, GenerosAPI, AtoresAPI, $routeParams, $location) {
+            
+        var FilmeId = $routeParams.id,
+            todosAtores = {};
             $scope.filme = FilmesAPI.get({id:FilmeId});
             $scope.title = 'Atualizar';
             $scope.generos = {};
+            $scope.atores = {};
+            
+            function atualizaAtores(){
+                function temNoFilme(el){
+                    return (el.id === this.id);
+                }
+                function atoresForaFilme(el){
+                    return !$scope.filme.elenco.some(temNoFilme, el);
+                }                
+                $scope.atores = todosAtores.filter(atoresForaFilme);                
+            }
+            
+            AtoresAPI.query(function(response) {
+                todosAtores = response;
+                if(!$scope.filme.elenco){
+                    setTimeout(function (){atualizaAtores();},1000);
+                }else{
+                    atualizaAtores();                    
+                }
+                
+            }, function(response) {
+                console.log(response);
+                $scope.status = 'Não pode carregar ator';
+            });
             
             GenerosAPI.query(function(response) {
                 $scope.generos = response;
@@ -103,15 +130,44 @@ angular.module('filmera.controllers', [])
                 console.log(response); //refatorar erros
                 $scope.status = 'Não pode carregar genero';
             });
-            $scope.mouseEnter = function(event){  
-                $(event.target).addClass('active').find('span.glyphicon').stop(true,true).fadeIn('fast');
-            }
-            $scope.mouseLeave = function(event){
-                $(event.target).removeClass('active').find('span.glyphicon').stop(true,true).fadeOut('fast');
-            }
+            
+            $scope.removeAtor = function(ator){                
+                if(confirm('Tem Certeza?')){
+                    var index = $scope.filme.elenco.indexOf(ator);
+                    $scope.filme.elenco.splice(index,1);
+                    setTimeout(function (){atualizaAtores();},500);
+                }
+            };
+            
+            $scope.selecionaAtor = function(ator){
+                if($scope.filme.elenco){
+                    //$scope.filme.elenco.push({id: ator.id, nome: ator.nome});
+                    $scope.filme.elenco.push(ator);
+                    
+                    console.log($scope.filme.elenco);
+                    //atualizaAtores();
+                    setTimeout(function (){atualizaAtores();},500);
+                }
+            };
+            var JmodalAtores = $('#modalAtores');            
+            $scope.modalAtores = function() {
+                JmodalAtores.modal('show');
+            };
+            
+            
+            $scope.modalMouseEnter = function(event){  
+                $(event.target).find('span.glyphicon').stop(true,true).fadeIn('fast');
+                //$(event.target).addClass('active');
+            };
+            $scope.modalMouseLeave = function(event){
+                $(event.target).find('span.glyphicon').stop(true,true).fadeOut('fast');
+                //$(event.target).removeClass('active');
+            };
+            
+            
             $scope.selecionaGenero = function(genero){
                 $scope.filme.genero = genero;
-            }
+            };
             
             var JmodalGeneros = $('#modalGeneros');            
             $scope.modalGeneros = function() {
@@ -197,7 +253,8 @@ angular.module('filmera.controllers', [])
                 window.history.back();
             };
             
-  }]).controller('GenerosEditController', ['$scope', 'GenerosAPI','$routeParams','$location', function($scope, GenerosAPI, $routeParams, $location) {
+  }])
+    .controller('GenerosEditController', ['$scope', 'GenerosAPI','$routeParams','$location', function($scope, GenerosAPI, $routeParams, $location) {
             var GeneroId = $routeParams.id;
             $scope.genero = GenerosAPI.get({id:GeneroId});
             $scope.title = 'Atualizar';
@@ -280,7 +337,8 @@ angular.module('filmera.controllers', [])
                 window.history.back();
             };
             
-  }]).controller('AtoresEditController', ['$scope', 'AtoresAPI','$routeParams','$location', function($scope, AtoresAPI, $routeParams, $location) {
+  }])
+    .controller('AtoresEditController', ['$scope', 'AtoresAPI','$routeParams','$location', function($scope, AtoresAPI, $routeParams, $location) {
             var AtorId = $routeParams.id;
             $scope.ator = AtoresAPI.get({id:AtorId});
             $scope.title = 'Atualizar';

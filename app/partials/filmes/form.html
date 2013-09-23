@@ -16,9 +16,29 @@
                 <label for="filmeGenero">Genero</label>
                 <input type="text" id="filmeGenero"  data-ng-click="modalGeneros()" readonly class="form-control modal-click" data-ng-model="filme.genero.descricao" value="{{filme.genero.descricao}}" />
             </div>
+            
+            <fieldset>
+                <legend>Atores</legend>
+                <div class="form-group">                    
+                    <button type="button" data-ng-click="modalAtores()" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Inserir Ator</button>
+                </div>
+                <div  class="list-group">
+                    <a data-ng-repeat="ator in filme.elenco" class="list-group-item list-group-item-heading">
+                        <div class="row">
+                            <div class="col-xs-9">
+                                <h5>{{ator.nome}}</h5>                                
+                            </div>
+                            <div class="col-xs-3">                                
+                                <button type="button" data-ng-click="removeAtor(ator)" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span></button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+            </fieldset>
 
-            <button type="submit" data-ng-click="saveUpdate()" class="btn btn-success">{{title}}</button>
-            <button type="button" data-ng-click="voltar()" class="btn btn-default">Voltar</button>
+            <button type="submit" data-ng-click="saveUpdate()" class="btn btn-success btn-lg">{{title}}</button>
+            <button type="button" data-ng-click="voltar()" class="btn btn-default btn-lg">Voltar</button>
         </form>
     </div>
 </div>
@@ -32,17 +52,47 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <input type="text" data-ng-model="busca" class="form-control" id="searchField"placeholder="Procurar" data-focus>
+                    <input type="text" data-ng-model="buscaGenero" class="form-control" id="searchFieldBuscaGenero" placeholder="Procurar" >
                 </div>
                 <div  class="list-group">
                     <a href="#" 
                        class="list-group-item" 
-                       data-ng-repeat="genero in generos | filter:busca" 
+                       data-ng-repeat="genero in generos | filter:buscaGenero" 
                        data-dismiss="modal" 
-                       data-ng-mouseenter="mouseEnter($event)" 
-                       data-ng-mouseleave="mouseLeave($event)" 
+                       data-ng-mouseenter="modalMouseEnter($event)" 
+                       data-ng-mouseleave="modalMouseLeave($event)" 
                        data-ng-click="selecionaGenero(genero)">
                         <h5>{{genero.descricao}} <span class="glyphicon glyphicon-ok pull-right display-none"></span></h5>                         
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modalAtores" role="dialog" aria-labelledby="modalAtores" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Atores</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" data-ng-model="buscaAtor" class="form-control" id="searchFieldBuscaAtor" placeholder="Procurar" >
+                </div>
+                <div  class="list-group">
+                    <a href="#" 
+                       class="list-group-item" 
+                       data-ng-repeat="ator in atores | filter:buscaAtor" 
+                       data-dismiss="modal" 
+                       data-ng-mouseenter="modalMouseEnter($event)" 
+                       data-ng-mouseleave="modalMouseLeave($event)" 
+                       data-ng-click="selecionaAtor(ator)">
+                        <h5>{{ator.nome}} <span class="glyphicon glyphicon-ok pull-right display-none"></span></h5>                         
                     </a>
                 </div>
             </div>
